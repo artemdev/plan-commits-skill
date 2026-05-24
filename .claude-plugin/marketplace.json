@@ -6,7 +6,7 @@
   "plugins": [
     {
       "name": "plan-commits",
-      "source": ".",
+      "source": "./",
       "description": "Split messy uncommitted changes into clean, feature-scoped commits — Claude stages each group and hands you the commit command; it never commits for you."
     }
   ]
