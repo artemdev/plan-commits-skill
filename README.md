@@ -6,10 +6,15 @@ Claude reads your diffs, groups the changes by feature, flags junk that shouldn'
 
 ## Install
 
-In Claude Code, add the marketplace and install the skill:
+In Claude Code, add the marketplace:
 
 ```
 /plugin marketplace add artemdev/plan-commits-skill
+```
+
+Then install the skill:
+
+```
 /plugin install plan-commits@artemdev-skills
 ```
 
