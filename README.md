@@ -18,7 +18,7 @@ Then install the skill:
 /plugin install plan-commits@artemdev-skills
 ```
 
-That's it. The skill activates automatically when you ask Claude to help commit messy changes — e.g. *"commit my changes,"* *"split this into commits,"* *"help me commit one by one."* You can also invoke it explicitly with `/plan-commits`.
+That's it. The skill activates automatically when you ask Claude to help commit messy changes — e.g. *"commit my changes,"* *"split this into commits."* You can also invoke it explicitly with `/plan-commits`.
 
 ## What it does
 
