@@ -1,0 +1,12 @@
+{
+  "name": "plan-commits",
+  "description": "Split messy uncommitted changes into clean, feature-scoped commits — Claude stages each group and hands you the commit command; it never commits for you.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Artem Zymovets"
+  },
+  "homepage": "https://github.com/artemdev/plan-commits-skill",
+  "repository": "https://github.com/artemdev/plan-commits-skill",
+  "license": "MIT",
+  "keywords": ["git", "commits", "conventional-commits", "claude-code", "skill"]
+}
