@@ -1,11 +1,7 @@
 # plan-commits
 
-> A [Claude Code](https://claude.com/claude-code) skill that splits a large batch
-> of uncommitted changes into clean, feature-scoped commits — and never commits for you.
-
-![Claude Code](https://img.shields.io/badge/Claude%20Code-skill-d97757)
-![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-fe5196?logo=conventionalcommits&logoColor=white)
-![License](https://img.shields.io/badge/license-MIT-blue)
+A [Claude Code](https://claude.com/claude-code) skill that splits a large batch
+of uncommitted changes into clean, feature-scoped commits — and never commits for you.
 
 You staged 14 files across three half-finished features, a debug `out.json`, and
 a `.env` you forgot about. Instead of hand-crafting `git add -p` for the next ten
@@ -13,13 +9,20 @@ minutes, you say *"split this into commits"* and review a plan.
 
 ## TL;DR
 
-```bash
-# In Claude Code:
-/plugin marketplace add artemdev/plan-commits-skill
-/plugin install plan-commits@artemdev-skills
+In Claude Code, add the marketplace and install the plugin (run each line on its own):
 
-# Then, with a messy working tree:
-"split this into commits"
+```
+/plugin marketplace add artemdev/plan-commits-skill
+```
+
+```
+/plugin install plan-commits@artemdev-skills
+```
+
+Then, with a messy working tree, just say:
+
+```
+split this into commits
 ```
 
 Claude groups your changes, shows a plan, and hands you one `git commit` command at
