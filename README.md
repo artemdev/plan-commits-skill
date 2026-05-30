@@ -1,32 +1,121 @@
 # plan-commits
 
-A [Claude Code](https://claude.com/claude-code) skill that turns a messy working tree full of uncommitted changes into a sequence of clean, feature-scoped commits.
+> A [Claude Code](https://claude.com/claude-code) skill that splits a large batch
+> of uncommitted changes into clean, feature-scoped commits — and never commits for you.
 
-Claude reads your diffs, groups the changes by feature, flags junk that shouldn't be committed, stages each group, and hands you a ready-to-run `git commit` command. **It never runs `git commit` itself** — you review and commit every change yourself, keeping full control over what lands.
+![Claude Code](https://img.shields.io/badge/Claude%20Code-skill-d97757)
+![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-fe5196?logo=conventionalcommits&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
-## Install
+You staged 14 files across three half-finished features, a debug `out.json`, and
+a `.env` you forgot about. Instead of hand-crafting `git add -p` for the next ten
+minutes, you say *"split this into commits"* and review a plan.
 
-In Claude Code, add the marketplace:
+## TL;DR
 
-```
+```bash
+# In Claude Code:
 /plugin marketplace add artemdev/plan-commits-skill
-```
-
-Then install the skill:
-
-```
 /plugin install plan-commits@artemdev-skills
+
+# Then, with a messy working tree:
+"split this into commits"
 ```
 
-That's it. The skill activates automatically when you ask Claude to help commit messy changes — e.g. *"commit my changes,"* *"split this into commits."* You can also invoke it explicitly with `/plan-commits`.
+Claude groups your changes, shows a plan, and hands you one `git commit` command at
+a time. **You run every commit yourself.**
 
-## What it does
+## The one rule
 
-- **Reads the actual diffs** (not just filenames) and groups changes by logical concern — feature + its tests together, foundational changes first.
-- **Flags junk** — scratch files, logs, secrets, build artifacts — and recommends gitignoring instead of committing them.
-- **Writes a Conventional Commit message** per group, and detects whether your repo enforces a commit style (e.g. [commitlint](https://commitlint.js.org)) so the message actually passes.
-- **Clears the index before each group** so nothing stray rides along into the wrong commit.
-- **Hands you the commit command** and stops — you commit, then tell it to continue.
+**Claude never runs `git commit`.** It reads diffs, groups files, stages each
+group, and hands you a copy-pasteable command. You run it.
+
+## Usage
+
+Call it explicitly:
+
+```
+/plan-commits
+```
+
+or conversationally:
+
+"commit my changes", or "split this into commits"
+
+### Example session
+
+```
+you ▸ split this into commits
+
+claude ▸ Read 6 changed files. Here's the plan:
+
+         ## Proposed commits (3)
+
+         ### 1. feat(api): add pagination to the search endpoint
+         - src/api/search/pagination.ts   (new)
+         - src/api/search/handler.ts      (modified)
+
+         ### 2. refactor(ui): split the dashboard hook into smaller units
+         - src/components/Dashboard/useDashboard.ts   (modified)
+
+         ### 3. chore(repo): ignore scratch files
+         - .gitignore                     (modified)
+
+         ## ⚠️ Recommend NOT committing
+         - out.json   — scratch output → add to .gitignore
+         - .env       — local secrets → gitignore or move out of repo
+
+         Approve, or tell me what to move/merge/reword.
+
+you ▸ looks good
+
+claude ▸ Staged commit 1. Index holds only these 2 files. Run:
+
+           git commit -m "feat(api): add pagination to the search endpoint"
+
+         Then say "next."
+
+you ▸ [runs it] next
+
+claude ▸ ✓ Commit landed. Staged commit 2. Run:
+
+           git commit -m "refactor(ui): split the dashboard hook into smaller units"
+```
+
+You stay in control: move a file between groups, merge or split commits, reorder
+them, or reword any message before you approve.
+
+## How it works
+
+1. **Resolves the repo root** and surveys everything uncommitted — tracked,
+   untracked, deleted, renamed. Untracked files get read, not guessed from their
+   names.
+2. **Reads the actual diffs**, then groups by logical concern: a feature with its
+   tests, foundational changes first so each commit stands on its own.
+3. **Flags junk** — `*.log`, scratch JSON, `.env`, build artifacts — and
+   recommends gitignoring instead of committing. It won't stage these.
+4. **Writes a Conventional Commit message** per group, after checking whether your
+   repo enforces a style (commitlint, husky `commit-msg` hooks) so the message
+   actually passes.
+5. **Shows you the whole plan** before staging anything.
+6. **Walks one commit at a time**: clears the index, stages only that group's
+   files, verifies nothing stray is staged, then hands you the command and stops.
+
+## Why the index gets cleared every time
+
+`git commit` commits whatever is staged — so a stray file left in the index from a
+previous step silently rides into the wrong commit. The skill runs
+`git restore --staged .` before each group and verifies the index holds *only*
+that group's files. It never uses `git add .` or `git add -A`; that would defeat
+the split.
+
+## When it stays out of your way
+
+| Situation | What happens |
+|---|---|
+| You want one commit of everything | It just stages and hands you one command |
+| Working tree is clean | Nothing to do |
+| You want Claude to commit for you | Different request — this skill is stage-and-hand-off by design |
 
 ## License
 
