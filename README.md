@@ -4,8 +4,8 @@ A [Claude Code](https://claude.com/claude-code) skill that splits a large batch
 of uncommitted changes into clean, feature-scoped commits — and never commits for you.
 
 You staged 14 files across three half-finished features, a debug `out.json`, and
-a `.env` you forgot about. Instead of hand-crafting `git add -p` for the next ten
-minutes, you say *"split this into commits"* and review a plan.
+a `.env` you forgot about. Instead of mentally splitting this into commits,
+you type `/plan-commits` and review a plan.
 
 ## TL;DR
 
